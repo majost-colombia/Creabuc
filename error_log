@@ -1,0 +1,4 @@
+[31-Oct-2018 09:26:11 America/Bogota] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/majost/public_html/creabuc/index.php on line 52
+[31-Oct-2018 09:26:11 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/majost/public_html/creabuc/index.php on line 248
+[31-Oct-2018 09:27:18 America/Bogota] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/majost/public_html/creabuc/index.php on line 52
+[31-Oct-2018 09:27:18 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/majost/public_html/creabuc/index.php on line 248
