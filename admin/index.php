@@ -631,13 +631,13 @@ switch($seccion) {
 
             if ( !is_null($foto_perfil) ) {
                 if(strlen($contrasena) >= 8) {
-	                $sql = mysqli_query( $link, "UPDATE `usuarios` SET `nombre` = '" . $nombre . "', `foto_perfil` = '" . $foto_perfil . "', telefono = '" . $telefono . "', whatsapp = '" . $whatsapp . "', `web` = '" . $web . "', `facebook` = '" . $facebook . "', `instagram` = '" . $instagram . "', `behance` = '" . $behance . "', `resumen` = '" . $resumen . "', `contrasena` = '" . $contrasena . "', `token` = '" . $token . "' WHERE `id` = " . $_SESSION['id_user'] );
+	                $sql = mysqli_query( $link, "UPDATE `usuarios` SET `nombre` = '" . $nombre . "', `foto_perfil` = '" . $foto_perfil . "', telefono = '" . $telefono . "', whatsapp = '" . $whatsapp . "', `web` = '" . $web . "', `facebook` = '" . $facebook . "', `instagram` = '" . $instagram . "', `behance` = '" . $behance . "', `resumen` = '" . $resumen . "', `contrasena` = '" . md5( $contrasena ) . "', `token` = '" . $token . "' WHERE `id` = " . $_SESSION['id_user'] );
                 } else {
 	                $sql = mysqli_query( $link, "UPDATE `usuarios` SET `nombre` = '" . $nombre . "', `foto_perfil` = '" . $foto_perfil . "', telefono = '" . $telefono . "', whatsapp = '" . $whatsapp . "', `web` = '" . $web . "', `facebook` = '" . $facebook . "', `instagram` = '" . $instagram . "', `behance` = '" . $behance . "', `resumen` = '" . $resumen . "', `token` = '" . $token . "' WHERE `id` = " . $_SESSION['id_user'] );
                 }
             } else {
                 if(strlen($contrasena) >= 8) {
-	                $sql = mysqli_query( $link, "UPDATE `usuarios` SET `nombre` = '" . $nombre . "', `telefono` = '" . $telefono . "', `whatsapp` = '" . $whatsapp . "', `web` = '" . $web . "', `facebook` = '" . $facebook . "', `instagram` = '" . $instagram . "', `behance` = '" . $behance . "', `resumen` = '" . $resumen . "', `contrasena` = '" . $contrasena . "', `token` = '" . $token . "' WHERE `id` = " . $_SESSION['id_user'] );
+	                $sql = mysqli_query( $link, "UPDATE `usuarios` SET `nombre` = '" . $nombre . "', `telefono` = '" . $telefono . "', `whatsapp` = '" . $whatsapp . "', `web` = '" . $web . "', `facebook` = '" . $facebook . "', `instagram` = '" . $instagram . "', `behance` = '" . $behance . "', `resumen` = '" . $resumen . "', `contrasena` = '" . md5( $contrasena ) . "', `token` = '" . $token . "' WHERE `id` = " . $_SESSION['id_user'] );
                 } else {
 	                $sql = mysqli_query( $link, "UPDATE `usuarios` SET `nombre` = '" . $nombre . "', `telefono` = '" . $telefono . "', `whatsapp` = '" . $whatsapp . "', `web` = '" . $web . "', `facebook` = '" . $facebook . "', `instagram` = '" . $instagram . "', `behance` = '" . $behance . "', `resumen` = '" . $resumen . "', `token` = '" . $token . "' WHERE `id` = " . $_SESSION['id_user'] );
                 }
