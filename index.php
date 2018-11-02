@@ -64,6 +64,10 @@ switch($seccion) {
         $sql_usuario = mysqli_query($link, "SELECT * FROM `usuarios` WHERE `usuarios`.`id` = ".$perfil);
         $data_usuario = mysqli_fetch_array($sql_usuario);
 	    break;
+    case "acerca-de-nosotros":
+        $titulo = "Creabuc - Acerca del proyecto";
+	    $sql_categorias = mysqli_query($link,"SELECT * FROM `categorias` WHERE `activa` = 1");
+        break;
     default:
         echo ("¿Qué carajo intentas? muchacho/a");
         die();
@@ -459,9 +463,9 @@ if ($seccion == "perfil") { ?>
                                     <form class="filter-dropdown" action="" id="form_busqueda" method="post" enctype="multipart/form-data">
                                         <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="buscador2" name="categoria">
                                             <option value="0" disabled selected>¿Cual categoría deseas buscar?</option>
-											<?php while ($categoria = mysqli_fetch_array($sql_categorias)) { ?>
-                                                <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['nombre']; ?></option>
-											<?php } ?>
+<?php while ($categoria = mysqli_fetch_array($sql_categorias)) { ?>
+                                            <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['nombre']; ?></option>
+<?php } ?>
                                         </select>
                                     </form>
                                 </li>
@@ -477,6 +481,8 @@ if ($seccion == "perfil") { ?>
         </div>
     </div>
     <!--//END HEADER -->
+
+
     <!--============================= RESERVE A SEAT =============================-->
     <section class="reserve-block">
         <div class="container">
@@ -574,6 +580,63 @@ if ($seccion == "perfil") { ?>
         </div>
     </section>
     <!--//END BOOKING DETAILS -->
+<?php } elseif ($seccion == "acerca-de-nosotros") { ?>
+    <!--============================= HEADER =============================-->
+    <div class="dark-bg sticky-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.php">Creabuc</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="icon-menu"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <form class="filter-dropdown" action="" id="form_busqueda" method="post" enctype="multipart/form-data">
+                                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="buscador2" name="categoria">
+                                            <option value="0" disabled selected>¿Cual categoría deseas buscar?</option>
+											<?php while ($categoria = mysqli_fetch_array($sql_categorias)) { ?>
+                                                <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['nombre']; ?></option>
+											<?php } ?>
+                                        </select>
+                                    </form>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.php">Home</a>
+                                </li>
+                                <li><a href="admin/" class="btn btn-outline-light top-btn"><span class="ti-plus"></span><?php if ($_SESSION['logged'] == "si") { echo $_SESSION['nombre_user']; } else { ?> Login/Registro<?php } ?></a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//END HEADER -->
+    <!--//BODY -->
+    <section class="about-us">
+        <img src="images/wendy-ramirez-disenadora-grafica.jpg">
+        <div>
+            <h3>Creditos</h3>
+
+            <p>Wendy Jazmin Ramirez Carrillo,</p>
+
+            <p>actualmente cursando noveno semestre de Diseño Gráfico,</p>
+
+            <p>Creadora de la plataforma Web</p>
+
+            <h4>"RED DE DISEÑO GRÁFICO DEL ÁREA METROPOLITANA DE BUCARAMANGA"</h4>
+
+            <p>El proyecto RED DE DISEÑO GRÁFICO DEL ÁREA METROPOLITANA DE BUCARAMANGA surge por la necesidad de propagar el diseño gráfico y a sus exponentes, talentos que aun no son reconocidos debido a su reciente inicio en el campo laboral fueron la principal inspiración para la creación de esta plataforma, que busca distinguir el ingenio Bumangués y su de Área Metropolitana para el destaque a nivel nacional.</p>
+
+            <p>Bucaramanga - Santander</p>
+
+            <p>Universidad de Investigación y Desarrollo</p>
+        </div>
+    </section>
+    <!--//END BODY -->
 <?php } ?>
     <!--============================= FOOTER =============================-->
     <footer class="main-block dark-bg">
@@ -581,7 +644,7 @@ if ($seccion == "perfil") { ?>
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
-                        <p>Copyright &copy; 2018 Listing. Todos los derechos reservados | Visita <a href="index.php?seccion=nosotros">Acerca de nosotros</a> para saber más sobre éste proyecto.</p>
+                        <p>Copyright &copy; 2018 Listing. Todos los derechos reservados | Visita <a href="index.php?seccion=acerca-de-nosotros">Acerca de nosotros</a> para saber más sobre éste proyecto.</p>
                         <ul>
                             <li><a href="https://www.facebook.com/creabuc.creabuc.9" target="_blank"><span class="ti-facebook"></span></a></li>
                             <li><a href="https://twitter.com/creabuc" target="_blank"><span class="ti-twitter-alt"></span></a></li>
