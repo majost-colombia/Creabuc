@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92550b9c-c6ea-4da3-9f7f-e08734adbf3d" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/admin/index.php" afterPath="$PROJECT_DIR$/admin/index.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,7 +29,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin/index.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -87,10 +86,21 @@
                 <marker date="1541160217385" expanded="true" signature="32479:32517" ph="SELECT * FRO... usuarios" />
                 <marker date="1541160217385" expanded="true" signature="33607:33937" ph="UPDATE `usuarios`... " />
                 <marker date="1541160217385" expanded="true" signature="33607:33941" ph="UPDATE `usuarios`... " />
+                <marker date="1541160217385" expanded="true" signature="34098:34452" ph="UPDATE `usuarios`... " />
                 <marker date="1541160217385" expanded="true" signature="34921:34968" ph="UPDATE `usuarios`... " />
                 <marker date="1541160217385" expanded="true" signature="35067:35385" ph="UPDATE `usuarios`... " />
                 <marker date="1541160217385" expanded="true" signature="36086:36122" ph="DELETE FROM `usuarios`... " />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -143,6 +153,7 @@
         <option value="$PROJECT_DIR$/scss/style.scss" />
         <option value="$PROJECT_DIR$/admin/css/style.css" />
         <option value="$PROJECT_DIR$/admin/index.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -156,7 +167,7 @@
     <servers />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1296" />
@@ -251,15 +262,15 @@
       <workItem from="1540503097645" duration="36655000" />
       <workItem from="1540683582527" duration="45135000" />
       <workItem from="1540925047809" duration="73466000" />
-      <workItem from="1541159182678" duration="1493000" />
+      <workItem from="1541159182678" duration="1678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="179955000" />
+    <option name="totallyTimeSpent" value="180140000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2526475" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -315,7 +326,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/admin/login.php" />
     <entry file="file://$PROJECT_DIR$/detail.html" />
     <entry file="file://$PROJECT_DIR$/admin/login.html" />
     <entry file="file://$PROJECT_DIR$/js/custom.js" />
@@ -431,13 +441,21 @@
             <marker date="1541160217385" expanded="true" signature="31776:31824" ph="UPDATE `usuarios`... " />
             <marker date="1541160217385" expanded="true" signature="32016:32064" ph="UPDATE `usuarios`... " />
             <marker date="1541160217385" expanded="true" signature="32479:32517" ph="SELECT * FRO... usuarios" />
-            <marker date="1541160217385" expanded="true" signature="33598:33941" ph="..." />
             <marker date="1541160217385" expanded="true" signature="33607:33937" ph="UPDATE `usuarios`... " />
             <marker date="1541160217385" expanded="true" signature="33607:33941" ph="UPDATE `usuarios`... " />
+            <marker date="1541160217385" expanded="true" signature="34098:34452" ph="UPDATE `usuarios`... " />
             <marker date="1541160217385" expanded="true" signature="34921:34968" ph="UPDATE `usuarios`... " />
             <marker date="1541160217385" expanded="true" signature="35067:35385" ph="UPDATE `usuarios`... " />
             <marker date="1541160217385" expanded="true" signature="36086:36122" ph="DELETE FROM `usuarios`... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
