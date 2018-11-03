@@ -52,14 +52,14 @@ switch($seccion) {
 	    $resultados = mysqli_num_rows($sql_albumes);
         break;
     case "album":
-        $titulo = plain_text($_GET['nombre_album'])." de ".plain_text($_GET['nombre_perfil']);
+        $titulo = plain_text($_GET['nombre_album'])." de ".plain_text($_GET['nombre_usuario']);
 	    $sql_categorias = mysqli_query($link,"SELECT * FROM `categorias` WHERE `activa` = 1");
 	    $sql_album = mysqli_query($link, "SELECT *, `albumes`.`id` id_album, `usuarios`.`id` id_usuario, `albumes`.`nombre` nombre_album, `usuarios`.`nombre` nombre_usuario FROM `albumes`,`usuarios` WHERE `usuarios`.`id` = `albumes`.`usuario` AND `albumes`.`activo` = 1 AND `albumes`.`id` = ".$album);
 	    $data_album = mysqli_fetch_array($sql_album);
 	    $sql_fotos = mysqli_query($link, "SELECT * FROM `fotos` WHERE `padre` = ".$album." AND `activo` = 1");
 	    break;
     case "perfil":
-        $titulo = plain_text($_GET['nombre_perfil']);
+        $titulo = plain_text($_GET['nombre_usuario']);
 	    $sql_categorias = mysqli_query($link,"SELECT * FROM `categorias` WHERE `activa` = 1");
         $sql_usuario = mysqli_query($link, "SELECT * FROM `usuarios` WHERE `usuarios`.`id` = ".$perfil);
         $data_usuario = mysqli_fetch_array($sql_usuario);
@@ -102,8 +102,11 @@ switch($seccion) {
     <!-- Magnific Popup CSS -->
     <link rel="stylesheet" href="css/magnific-popup.css">
 <?php } ?>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <link rel="stylesheet" href="css/cocon-webfont.css?v=1.1">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/style.css?v=1">
+    <link rel="stylesheet" href="css/style.css?v=1.1">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
@@ -252,7 +255,7 @@ switch($seccion) {
 <?php while ($album = mysqli_fetch_array($sql_albumes)) { ?>
                         <div class="col-sm-6 col-lg-4 col-xl-4 featured-responsive">
                             <div class="featured-place-wrap">
-                                <a href="index.php?seccion=album&album=<?php echo $album['id_album']; ?>&nombre_album=<?php echo $album['nombre_album']; ?>&nombre_perfil=<?php echo $album['nombre_usuario'] ?>">
+                                <a href="index.php?seccion=album&album=<?php echo $album['id_album']; ?>&nombre_album=<?php echo $album['nombre_album']; ?>&nombre_usuario=<?php echo $album['nombre_usuario'] ?>">
                                     <img src="<?php  echo $album['miniatura']; ?>" class="img-fluid" alt="<?php echo $album['nombre_album']." de ".$album['nombre_usuario']; ?>">
                                     <div class="featured-title-box">
                                         <h6><?php echo $album['nombre_album']; ?></h6>
@@ -438,7 +441,7 @@ if (strlen($data_album['web']) > 5) { ?>
                             <p><a href="<?php echo $data_album['web']; ?>" target="_blank"><?php echo $data_album['web']; ?></a></p>
                         </div>
 <?php } ?>
-                        <a href="index.php?seccion=perfil&perfil=<?php echo $data_album['id_usuario']; ?>&nombre_perfil=<?php echo $data_album['nombre_usuario']; ?>" class="btn btn-outline-danger btn-contact">VER PERFIL</a>
+                        <a href="index.php?seccion=perfil&perfil=<?php echo $data_album['id_usuario']; ?>&nombre_usuario=<?php echo $data_album['nombre_usuario']; ?>" class="btn btn-outline-danger btn-contact">VER PERFIL</a>
                     </div>
                 </div>
             </div>
