@@ -676,7 +676,7 @@ switch($seccion) {
     <link href="css/font-awesome.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
 
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css?v=1" rel="stylesheet" type="text/css">
 <?php if(($seccion == "dashboard" && $login == true) || $seccion == "registro"){ ?>
     <link href="css/pages/signin.css" rel="stylesheet" type="text/css">
 <?php } ?>
@@ -735,7 +735,7 @@ switch($seccion) {
 
             <ul class="mainnav">
 
-                <li>
+                <li<?php if($seccion == "dashboard"){ ?> class="active"<?php } ?>>
                     <a href="index.php">
                         <i class="icon-dashboard"></i>
                         <span>Dashboard</span>
@@ -744,21 +744,21 @@ switch($seccion) {
 
 
 
-                <li>
+                <li<?php if($seccion == "albumes"){ ?> class="active"<?php } ?>>
                     <a href="index.php?seccion=albumes">
                         <i class="icon-picture"></i>
                         <span><?php if($_SESSION['tipo_user'] == 2){ ?>Mis <?php } ?>Albumes</span>
                     </a>
                 </li>
 				<?php if($_SESSION['tipo_user'] == 1) { ?>
-                    <li>
+                    <li<?php if($seccion == "categorias"){ ?> class="active"<?php } ?>>
                         <a href="index.php?seccion=categorias">
                             <i class="icon-list"></i>
                             <span>Categorías</span>
                         </a>
                     </li>
 
-                    <li>
+                    <li<?php if($seccion == "usuarios"){ ?> class="active"<?php } ?>>
                         <a href="index.php?seccion=usuarios">
                             <i class="icon-group"></i>
                             <span>Usuarios</span>
