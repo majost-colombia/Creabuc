@@ -12,5 +12,5 @@ $_SESSION['nombre_user'] = '';
 $_SESSION['id_user'] = 0;
 $_SESSION['tipo_user'] = 0;
 
-header('Location: index.php');
+header('Location: ../index.php');
 ?>
