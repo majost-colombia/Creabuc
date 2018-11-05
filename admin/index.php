@@ -171,6 +171,7 @@ switch($seccion) {
 				$sql_fotos = substr( $sql_cond, 0, - 1 );
 				$ejecutar  = mysqli_query( $link, $sql_fotos );
 				if ( $ejecutar ) {
+				    $activate              = mysqli_query($link, "UPDATE `categorias` SET `activa` = 1 WHERE `id` = " . $categoria_id);
 					$titulo                = "Creabuc - Album creado correctamente";
 					$seccion               = "response";
 					$response['titulo']    = "Album creado";
@@ -294,6 +295,7 @@ switch($seccion) {
 					}
 				}
 				if(count($errors) == 0){
+					$activate              = mysqli_query($link, "UPDATE `categorias` SET `activa` = 1 WHERE `id` = " . $categoria_id);
 					$titulo                = "Creabuc - Album actualizado";
 					$seccion               = "response";
 					$response['titulo']    = 'Correcto';
@@ -306,9 +308,10 @@ switch($seccion) {
 				$response['contenido'] = 'Se presentó un error al crear el album, contacte al administrador.';
 			}
 		} elseif ( $accion == "eliminar" ) {
-			$id        = number( $_GET['id'] );
-			$errors = array();
-			$sql_fotos = mysqli_query($link,"SELECT * FROM `fotos` WHERE `padre` = " . $id);
+			$id           = number( $_GET['id'] );
+			$categoria_id = number( $_GET['categoria'] );
+			$errors       = array();
+			$sql_fotos    = mysqli_query($link,"SELECT * FROM `fotos` WHERE `padre` = " . $id);
 			while ( $foto = mysqli_fetch_array( $sql_fotos ) ) {
 				@unlink( '../' . $foto['ruta_mini'] );
 				@unlink( '../' . $foto['ruta_full'] );
@@ -323,6 +326,10 @@ switch($seccion) {
 				$errors[] = "Error al eliminar las fotos. <br />";
 			}
 			if ( count( $errors ) == 0 ) {
+			    $sql_del            = mysqli_query($link, "SELECT `id` FROM `albumes` WHERE `categoria` = " . $categoria_id);
+			    if(mysqli_num_rows($sql_del) == 0){
+				    $activate       = mysqli_query($link, "UPDATE `categorias` SET `activa` = 0 WHERE `id` = " . $categoria_id);
+                }
 				$seccion            = "response";
 				$titulo             = "Creabuc - Album eliminado";
 				$response['titulo'] = "Correcto";
@@ -430,15 +437,17 @@ switch($seccion) {
 			}
 		} else {
 			if ( $accion == "crear_categoria" ) {
-				$nombre    = plain_text( $_POST['nombre'] );
+				$nombre    = ucwords(strtolower(plain_text( $_POST['nombre'] )));
 				$sql       = mysqli_query( $link, "SELECT `id` FROM `categorias` WHERE `nombre` = '" . $nombre . "'" );
 				$resultado = mysqli_num_rows( $sql );
 				if ( $resultado > 0 ) {
 					echo "Error, la categoría que intentas crear ya existe";
+					die();
 				} else {
 					$sql = mysqli_query( $link, "INSERT INTO `categorias` (`nombre`, `miniatura`, `creada_por`, `activa`) VALUES ('" . $nombre . "','images/default_categoria.jpg','" . $_SESSION['id_user'] . "',0)" );
 					if ( $sql ) {
 						echo mysqli_insert_id( $link ) . ',' . $nombre;
+						die();
 					}
 				}
 			} else {
@@ -1929,6 +1938,23 @@ if($seccion == "albumes") {
     </div> <!-- /footer-inner -->
 
 </div> <!-- /footer -->
+
+<!-- Modal -->
+<div id="CreaCat" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Nueva Categoría</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            <input type="text" id="nombre_categoria" placeholder="Nombre de la nueva categoría">
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+        <button class="btn btn-primary" id="crear_cat">Crear</button>
+    </div>
+</div>
 
 
 <!-- Le javascript
