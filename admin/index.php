@@ -148,10 +148,10 @@ switch($seccion) {
 					redim( $_FILES['miniatura']['tmp_name'], '../images/albumes/' . normalizar( $categoria['nombre'] ) . '/' . normalizar( $nombre ) . '/main_' . normalizar( $_FILES[ 'miniatura' ]['name'] ), 1 );
 					$ruta_miniatura  = 'images/albumes/' . normalizar( $categoria['nombre'] ) . '/' . normalizar( $nombre ) . '/main_' . normalizar( $_FILES[ 'miniatura' ]['name'] );
 				} else {
-					$ruta_miniatura = 'images/default_categoria';
+					$ruta_miniatura = 'images/default-categorias.png';
 				}
 			} else {
-				$ruta_miniatura = 'images/default_categoria';
+				$ruta_miniatura = 'images/default-categorias.png';
 			}
 			$sql_cond  = "INSERT INTO `fotos` (`padre`,`ruta_mini`,`ruta_full`,`activo`) VALUES ";
 			$sql_album = mysqli_query( $link, "INSERT INTO `albumes` (`usuario`,`categoria`,`nombre`,`descripcion`,`miniatura`,`activo`) VALUES ('" . $_SESSION['id_user'] . "','" . $categoria_id . "','" . $nombre . "','" . $descripcion . "','" . $ruta_miniatura . "','1')");
@@ -174,7 +174,7 @@ switch($seccion) {
 				    $activate              = mysqli_query($link, "UPDATE `categorias` SET `activa` = 1 WHERE `id` = " . $categoria_id);
 					$titulo                = "Creabuc - Album creado correctamente";
 					$seccion               = "response";
-					$response['titulo']    = "Album creado";
+					$response['titulo']    = "Correcto";
 					$response['contenido'] = "El album se ha creado correctamente";
 				} else {
 					$titulo                = "Creabuc - Error";
@@ -295,7 +295,9 @@ switch($seccion) {
 					}
 				}
 				if(count($errors) == 0){
-					$activate              = mysqli_query($link, "UPDATE `categorias` SET `activa` = 1 WHERE `id` = " . $categoria_id);
+				    if($activo == 1) {
+					    $activate = mysqli_query( $link, "UPDATE `categorias` SET `activa` = 1 WHERE `id` = " . $categoria_id );
+				    }
 					$titulo                = "Creabuc - Album actualizado";
 					$seccion               = "response";
 					$response['titulo']    = 'Correcto';
@@ -326,7 +328,7 @@ switch($seccion) {
 				$errors[] = "Error al eliminar las fotos. <br />";
 			}
 			if ( count( $errors ) == 0 ) {
-			    $sql_del            = mysqli_query($link, "SELECT `id` FROM `albumes` WHERE `categoria` = " . $categoria_id);
+			    $sql_del            = mysqli_query($link, "SELECT `id` FROM `albumes` WHERE `activo` = 1 AND `categoria` = " . $categoria_id);
 			    if(mysqli_num_rows($sql_del) == 0){
 				    $activate       = mysqli_query($link, "UPDATE `categorias` SET `activa` = 0 WHERE `id` = " . $categoria_id);
                 }
@@ -356,10 +358,10 @@ switch($seccion) {
 						redim( $_FILES['miniatura']['tmp_name'], '../images/categorias/' . normalizar( $nombre ) . '_' . normalizar( $_FILES['miniatura']['name'] ), 3 );
 						$imagen = 'images/categorias/' . normalizar( $nombre ) . '_' . normalizar( $_FILES['miniatura']['name'] );
 					} else {
-						$imagen = 'images/default_categoria.jpg';
+						$imagen = 'images/default-categorias.png';
 					}
 				} else {
-					$imagen = 'images/default_categoria.jpg';
+					$imagen = 'images/default-categorias.png';
 				}
 				if(isset($_POST['activa'])){
 				    $activa = 1;
@@ -421,7 +423,7 @@ switch($seccion) {
 				$id        = number( $_GET['id'] );
 				$sql_check = mysqli_query( $link, "SELECT * FROM `categorias` WHERE `id` = " . $id );
 				$data      = mysqli_fetch_array( $sql_check );
-				if ( $data['miniatura'] != 'images/default_categoria.jpg' ) {
+				if ( $data['miniatura'] != 'images/default-categorias.png' ) {
 					@unlink( '../' . $data['miniatura'] );
                 }
 				$sql = mysqli_query( $link, "DELETE FROM `categorias` WHERE `id` = " . $id );
@@ -444,7 +446,7 @@ switch($seccion) {
 					echo "Error, la categoría que intentas crear ya existe";
 					die();
 				} else {
-					$sql = mysqli_query( $link, "INSERT INTO `categorias` (`nombre`, `miniatura`, `creada_por`, `activa`) VALUES ('" . $nombre . "','images/default_categoria.jpg','" . $_SESSION['id_user'] . "',0)" );
+					$sql = mysqli_query( $link, "INSERT INTO `categorias` (`nombre`, `miniatura`, `creada_por`, `activa`) VALUES ('" . $nombre . "','images/default-categorias.png','" . $_SESSION['id_user'] . "',0)" );
 					if ( $sql ) {
 						echo mysqli_insert_id( $link ) . ',' . $nombre;
 						die();
@@ -995,7 +997,7 @@ if($seccion == "albumes") {
                                         <td><?php echo $album['nombre_album']; ?></td>
                                         <td><?php echo $album['nombre_categoria']; ?></td>
                                         <td><?php echo $album['nombre_usuario']; ?></td>
-                                        <td class="td-actions"><a href="index.php?seccion=albumes&accion=editar&id=<?php echo $album['id_album']; ?>" class="btn btn-small btn-success"><i class="btn-icon-only icon-pencil"> </i></a><a href="index.php?seccion=albumes&accion=eliminar&id=<?php echo $album['id_album']; ?>" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
+                                        <td class="td-actions"><a href="index.php?seccion=albumes&accion=editar&id=<?php echo $album['id_album']; ?>" class="btn btn-small btn-success"><i class="btn-icon-only icon-pencil"> </i></a><a href="index.php?seccion=albumes&accion=eliminar&id=<?php echo $album['id_album']; ?>&categoria=<?php echo $album['id_categoria']; ?>" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
                                     </tr>
 <?php } ?>
 
@@ -1050,7 +1052,7 @@ if($seccion == "albumes") {
                                         <div class="control-group">
                                             <label class="control-label" for="categoria">Categoría</label>
                                             <div class="controls">
-                                                <select class="span6" id="categoria" name="categoria">
+                                                <select class="span6" id="categoria" name="categoria" required="true">
                                                         <option value="0" disabled>Selecciona una categoría</option>
 				                                    <?php while($categoria = mysqli_fetch_array($categorias)){ ?>
                                                         <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['nombre']; ?></option>
@@ -1063,28 +1065,30 @@ if($seccion == "albumes") {
                                         <div class="control-group">
                                             <label class="control-label" for="nombre">Título</label>
                                             <div class="controls">
-                                                <input type="text" class="span6" id="nombre" name="nombre" value="">
+                                                <input type="text" class="span6" id="nombre" name="nombre" value="" required="true">
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
                                         <div class="control-group">
-                                            <label class="control-label" for="miniatura">Miniatura</label>
+                                            <label class="control-label" for="miniatura">Portada del album</label>
                                             <div class="controls">
                                                 <input type="file" class="span6" id="miniatura" name="miniatura" value="">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
                                         <div class="control-group">
                                             <label class="control-label" for="descripcion">Descripción</label>
                                             <div class="controls">
-                                                <textarea class="span6" id="descripcion" name="descripcion"></textarea>
+                                                <textarea class="span6" id="descripcion" name="descripcion" required="true"></textarea>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
                                         <div class="control-group">
                                             <label class="control-label" for="imagen1">Imagen 1</label>
                                             <div class="controls">
-                                                <input type="file" class="span6" id="imagen1" name="imagen1">
+                                                <input type="file" class="span6" id="imagen1" name="imagen1" required="true">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
@@ -1092,6 +1096,7 @@ if($seccion == "albumes") {
                                             <label class="control-label" for="imagen2">Imagen 2</label>
                                             <div class="controls">
                                                 <input type="file" class="span6" id="imagen2" name="imagen2">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
@@ -1099,6 +1104,7 @@ if($seccion == "albumes") {
                                             <label class="control-label" for="imagen3">Imagen 3</label>
                                             <div class="controls">
                                                 <input type="file" class="span6" id="imagen3" name="imagen3">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
@@ -1106,6 +1112,7 @@ if($seccion == "albumes") {
                                             <label class="control-label" for="imagen4">Imagen 4</label>
                                             <div class="controls">
                                                 <input type="file" class="span6" id="imagen4" name="imagen4">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
@@ -1113,11 +1120,12 @@ if($seccion == "albumes") {
                                             <label class="control-label" for="imagen5">Imagen 5</label>
                                             <div class="controls">
                                                 <input type="file" class="span6" id="imagen5" name="imagen5">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
                                         <div class="control-group">
-                                            <label class="control-label">Activa</label>
+                                            <label class="control-label">Activar album</label>
 
 
                                             <div class="controls">
@@ -1182,7 +1190,7 @@ if($seccion == "albumes") {
                                         <div class="control-group">
                                             <label class="control-label" for="categoria">Categoría</label>
                                             <div class="controls">
-                                                <select class="span6" id="categoria" name="categoria">
+                                                <select class="span6" id="categoria" name="categoria" required="true">
                                                     <option value="0" disabled>Selecciona una categoría</option>
 												    <?php while($categoria = mysqli_fetch_array($categorias)){ ?>
                                                         <option value="<?php echo $categoria['id']; ?>"<?php if($data['id_categoria']) { ?> selected<?php } ?>><?php echo $categoria['nombre']; ?></option>
@@ -1195,22 +1203,23 @@ if($seccion == "albumes") {
                                         <div class="control-group">
                                             <label class="control-label" for="nombre">Título</label>
                                             <div class="controls">
-                                                <input type="text" class="span6" id="nombre" name="nombre" value="<?php echo $data['nombre_album']; ?>">
+                                                <input type="text" class="span6" id="nombre" name="nombre" value="<?php echo $data['nombre_album']; ?>" required="true">
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
                                         <div class="control-group">
-                                            <label class="control-label" for="miniatura">Miniatura</label>
+                                            <label class="control-label" for="miniatura">Portada del album</label>
                                             <div class="controls">
                                                 <img src="../<?php echo $data['miniatura']; ?>">
-                                                <input type="file" class="span6" id="miniatura" name="miniatura" value="">
+                                                <input type="file" class="span6" id="miniatura" name="miniatura">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
                                         <div class="control-group">
                                             <label class="control-label" for="descripcion">Descripción</label>
                                             <div class="controls">
-                                                <textarea class="span6" id="descripcion" name="descripcion"><?php echo $data['descripcion']; ?></textarea>
+                                                <textarea class="span6" id="descripcion" name="descripcion" required="true"><?php echo $data['descripcion']; ?></textarea>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 
@@ -1221,6 +1230,7 @@ if($seccion == "albumes") {
                                                 <input type="hidden" name="id_imagen<?php echo $cont; ?>" value="<?php echo $imagen['id']; ?>">
                                                 <img src="../<?php echo $imagen['ruta_mini']; ?>">
                                                 <input type="file" class="span6" id="imagen<?php echo $cont; ?>" name="imagen<?php echo $cont; ?>">
+                                                <p>Solo se admiten imagenes png,jpg y gif. Renombra las imágenes que tengan extensión .jpeg a .jpg</p>
                                             </div> <!-- /controls -->
                                         </div> <!-- /control-group -->
 <?php ++$cont; } ?>

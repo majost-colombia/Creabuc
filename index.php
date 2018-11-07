@@ -714,7 +714,7 @@ if ($seccion == "perfil") { ?>
 <?php } ?>
 
 <!-- Custom scripts -->
-    <script src="js/custom.js"></script>
+    <script src="js/custom.js?v=1.1"></script>
 
 <?php if ($seccion == "inicio") { ?>
     <script>
