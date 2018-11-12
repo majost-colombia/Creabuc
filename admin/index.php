@@ -749,7 +749,7 @@ switch($seccion) {
                 <li<?php if($seccion == "dashboard"){ ?> class="active"<?php } ?>>
                     <a href="index.php">
                         <i class="icon-dashboard"></i>
-                        <span>Dashboard</span>
+                        <span>Tablero</span>
                     </a>
                 </li>
 
@@ -1036,7 +1036,7 @@ if($seccion == "albumes") {
 
                                 <form id="edit-profile" class="form-horizontal" action="index.php?seccion=albumes&accion=guardar" method="post" enctype="multipart/form-data">
                                     <fieldset>
-<?php if($_SESSION['tipo_user'] == 2) { ?>
+<?php if($_SESSION['tipo_user'] == 1) { ?>
                                         <div class="control-group">
                                             <label class="control-label" for="usuario">Usuario</label>
                                             <div class="controls">
