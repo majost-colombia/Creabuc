@@ -120,7 +120,7 @@ switch($seccion) {
                 <div class="row">
                     <div class="col-md-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
-                            <a class="navbar-brand" href="index.php">Creabuc</a>
+                            <a class="navbar-brand" href="index.php"><img src="images/logo.png" height="56"> Creabuc</a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="icon-menu"></span>
               </button>
@@ -146,7 +146,7 @@ switch($seccion) {
                             <div class="col-md-12">
                                 <div class="slider-content_wrap">
                                     <h1>Encuentra profesionales en diseño</h1>
-                                    <h5>En la Universidad de Desarrollo e Investigación.</h5>
+                                    <h5>En la Universidad de Investigación y Desarrollo UDI.</h5>
                                 </div>
                             </div>
                         </div>
