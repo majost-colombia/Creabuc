@@ -57,6 +57,8 @@ switch($seccion) {
 		if ( $_SESSION['logged'] == "si" ) {
 			$login  = false;
 			$titulo = "Creabuc - Inicio";
+			$sql    = mysqli_query($link, "SELECT * FROM `usuarios` WHERE `id` = ".$_SESSION['id_user']);
+			$data   = mysqli_fetch_array($sql);
 		} else {
 			$login  = true;
 			$titulo = "Creabuc - Login";
@@ -68,7 +70,7 @@ switch($seccion) {
 	case "registrar":
 		$errors = [];
 		if ( strlen( plain_text( $_POST['nombre'] ) ) > 3 ) {
-			$nombre = plain_text( $_POST['nombre'] );
+			$nombre = trim(plain_text( $_POST['nombre'] ));
 		} else {
 			$errors[] = "El nombre es obligatorio, debe llevar nombre y apellido.";
 		}
@@ -83,8 +85,8 @@ switch($seccion) {
 			$errors[] = "Debe ingresar un email válido, el email indicado no parece serlo.";
 		}
 		$tipo = 2;
-		if ( strlen( $_POST['contrasena'] ) >= 8 ) {
-			$contrasena = $_POST['contrasena'];
+		if ( strlen( trim($_POST['contrasena'] ) ) >= 8 ) {
+			$contrasena = trim($_POST['contrasena']);
 		} else {
 			$errors[] = "La contraseña debe tener al menos 8 caracteres";
 		}
@@ -140,7 +142,7 @@ switch($seccion) {
 			$categoria_id   = number( $_POST['categoria'] );
 			$sql         = mysqli_query( $link, "SELECT `nombre` FROM `categorias` WHERE `id`=" . $categoria_id );
 			$categoria   = mysqli_fetch_array( $sql );
-			$nombre      = plain_text( $_POST['nombre'] );
+			$nombre      = trim(plain_text( $_POST['nombre'] ));
 			$descripcion = strip_tags( $_POST['descripcion'], "p,strong,b,i,span" );
 			@mkdir('../images/albumes/' . normalizar($categoria['nombre']) . '/' . normalizar( $nombre ), 0775, true);
 			if(isset($_FILES['miniatura'])) {
@@ -202,7 +204,7 @@ switch($seccion) {
 			$categoria_id    = number( $_POST['categoria'] );
 			$sql          = mysqli_query( $link, "SELECT `nombre` FROM `categorias` WHERE `id`=" . $categoria_id );
 			$categoria    = mysqli_fetch_array( $sql );
-			$nombre       = plain_text( $_POST['nombre'] );
+			$nombre       = trim(plain_text( $_POST['nombre'] ));
 			$descripcion  = strip_tags( $_POST['descripcion'], "p,strong,b,i,span" );
 			$dir          = '../images/albumes/' . $categoria['nombre'] . '/' . $nombre;
 			if (!file_exists($dir) && !is_dir($dir)) {
@@ -352,7 +354,7 @@ switch($seccion) {
 			} elseif ( $accion == "crear" ) {
                 $titulo = "Creabuc - Crear categoría";
 			} elseif ( $accion == "guardar" ) {
-				$nombre = plain_text( $_POST['nombre'] );
+				$nombre = trim(plain_text( $_POST['nombre'] ));
 				if(isset($_FILES['miniatura'])) {
 					if ( $_FILES['miniatura']['size'] > 35 ) {
 						redim( $_FILES['miniatura']['tmp_name'], '../images/categorias/' . normalizar( $nombre ) . '_' . normalizar( $_FILES['miniatura']['name'] ), 3 );
@@ -387,7 +389,7 @@ switch($seccion) {
 				$data   = mysqli_fetch_array($sql);
 			} elseif ( $accion == "actualizar" ) {
 				$id     = number( $_GET['id'] );
-				$nombre = plain_text( $_POST['nombre'] );
+				$nombre = trim(plain_text( $_POST['nombre'] ));
 				if(isset($_FILES['miniatura'])) {
 					if ( $_FILES['miniatura']['size'] > 35 ) {
 						redim( $_FILES['miniatura']['tmp_name'], '../images/categorias/' . normalizar( $nombre ) . '_' . normalizar( $_FILES['miniatura']['name'] ), 3 );
@@ -439,7 +441,7 @@ switch($seccion) {
 			}
 		} else {
 			if ( $accion == "crear_categoria" ) {
-				$nombre    = ucwords(strtolower(plain_text( $_POST['nombre'] )));
+				$nombre    = ucwords(strtolower(plain_text(trim( $_POST['nombre'] ))));
 				$sql       = mysqli_query( $link, "SELECT `id` FROM `categorias` WHERE `nombre` = '" . $nombre . "'" );
 				$resultado = mysqli_num_rows( $sql );
 				if ( $resultado > 0 ) {
@@ -468,7 +470,7 @@ switch($seccion) {
 			} elseif ( $accion == "crear" ) {
                 $titulo  = "Creabuc - Crear usuario";
 			} elseif ( $accion == "guardar" ) {
-                $nombre  = plain_text($_POST['nombre']);
+                $nombre  = trim(plain_text($_POST['nombre']));
                 if(isset($_FILES['foto_perfil'])) {
 	                if ( $_FILES['foto_perfil']['size'] > 35 ) {
 		                redim( $_FILES['foto_perfil']['tmp_name'], '../images/usuarios/' . normalizar( $nombre ) . '_' . normalizar( $_FILES['foto_perfil']['name'] ), 3 );
@@ -522,7 +524,7 @@ switch($seccion) {
                 $data   = mysqli_fetch_array($sql);
 			} elseif ( $accion == "actualizar" ) {
 			    $id     = number($_GET['id']);
-				$nombre = plain_text($_POST['nombre']);
+				$nombre = trim(plain_text($_POST['nombre']));
 				if(isset($_FILES['foto_perfil'])) {
 					if ( $_FILES['foto_perfil']['size'] > 35 ) {
 						redim( $_FILES['foto_perfil']['tmp_name'], '../images/usuarios/' . normalizar( $nombre ) . '_' . normalizar( $_FILES['foto_perfil']['name'] ), 4 );
@@ -619,7 +621,7 @@ switch($seccion) {
             $sql = mysqli_query($link, "SELECT * FROM `usuarios` WHERE `id` = ".$_SESSION['id_user']);
             $data = mysqli_fetch_array($sql);
 		} elseif($accion == "actualizar") {
-			$nombre = plain_text($_POST['nombre']);
+			$nombre = trim(plain_text($_POST['nombre']));
 			if(isset($_FILES['foto_perfil'])) {
 				if ( $_FILES['foto_perfil']['size'] > 35 ) {
 					redim( $_FILES['foto_perfil']['tmp_name'], '../images/usuarios/' . $nombre . '_' . normalizar( $_FILES['foto_perfil']['name'] ), 4 );
@@ -630,15 +632,15 @@ switch($seccion) {
 			} else {
 				$foto_perfil = null;
 			}
-			$telefono = number($_POST['telefono']);
-			$whatsapp = number($_POST['whatsapp']);
-			$web = plain_text($_POST['web']);
-			$facebook = plain_text($_POST['facebook']);
-			$instagram = plain_text($_POST['instagram']);
-			$behance = plain_text($_POST['behance']);
-			$resumen = strip_tags($_POST['resumen']);
-			$contrasena = plain_text($_POST['contrasena']);
-			$token = token(10);
+			$telefono   = number( $_POST['telefono'] );
+			$whatsapp   = number( $_POST['whatsapp'] );
+			$web        = plain_text( $_POST['web'] );
+			$facebook   = plain_text( $_POST['facebook'] );
+			$instagram  = plain_text( $_POST['instagram'] );
+			$behance    = plain_text( $_POST['behance'] );
+			$resumen    = strip_tags( $_POST['resumen'] );
+			$contrasena = plain_text( $_POST['contrasena'] );
+			$token      = token( 10 );
 
             if ( !is_null($foto_perfil) ) {
                 if(strlen($contrasena) >= 8) {
@@ -684,10 +686,11 @@ switch($seccion) {
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
 
-    <link href="css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
 
-    <link href="css/style.css?v=1" rel="stylesheet" type="text/css">
+    <link href="css/style.css?v=1.1" rel="stylesheet" type="text/css">
 <?php if(($seccion == "dashboard" && $login == true) || $seccion == "registro"){ ?>
     <link href="css/pages/signin.css" rel="stylesheet" type="text/css">
 <?php } ?>
@@ -941,7 +944,62 @@ if($seccion == "dashboard" && $login == true){ ?>
                         <div class="widget-content">
                             <div class="widget big-stats-container">
                                 <div class="widget-content">
-                                    <h6 class="bigstats">Aquí puedes crear, editar y eliminar tus albumes y datos personales, para modificar tu perfil despliega el menú que está en la parte superior derecha bajo tu nombre.</h6>
+                                    <div class="span4">&nbsp;</div>
+                                    <div class="span4 responsive-wrap">
+                                        <div class="follow">
+                                            <div class="follow-img">
+				                                <?php if (strlen($data['foto_perfil']) > 5) { ?>
+                                                    <img src="../<?php echo $data['foto_perfil']; ?>" class="img-fluid" alt="<?php echo $data['nombre']; ?>">
+				                                <?php } else { ?>
+                                                    <img src="../images/unknown.png" class="img-fluid" alt="<?php echo $data['nombre']; ?>">
+				                                <?php } ?>
+                                                <h6><?php echo $data['nombre']; ?></h6>
+                                            </div>
+                                            <ul class="social-counts">
+				                                <?php if (strlen($data['facebook']) > 5) { ?>
+                                                    <li>
+                                                        <h6><a href="<?php echo $data['facebook']; ?>" target="_blank"><i class="fab fa-2x fa-facebook"></i></a></h6>
+                                                    </li>
+				                                <?php }
+				                                if (strlen($data['instagram']) > 5) { ?>
+                                                    <li>
+                                                        <h6><a href="<?php echo $data['instagram']; ?>" target="_blank"><i class="fab fa-2x fa-instagram"></i></a></h6>
+                                                    </li>
+				                                <?php }
+				                                if (strlen($data['behance']) > 5) { ?>
+                                                    <li>
+                                                        <h6><a href="<?php echo $data['behance']; ?>" target="_blank"><i class="fab fa-2x fa-behance"></i></a></h6>
+                                                    </li>
+				                                <?php } ?>
+                                            </ul>
+                                        </div>
+                                        <div class="contact-info">
+			                                <?php if (strlen($data['whatsapp']) > 5 ) { ?>
+                                                <div class="address">
+                                                    <i class="fab fa-whatsapp"></i>
+                                                    <p><a href="https://api.whatsapp.com/send?phone=57<?php echo $data['whatsapp']; ?>" target="_blank"><?php echo $data['whatsapp']; ?></a></p>
+                                                </div>
+			                                <?php }
+			                                if (strlen($data['telefono']) > 5) { ?>
+                                                <div class="address">
+                                                    <i class="fas fa-mobile-alt"></i>
+                                                    <p><a href="tel:<?php echo $data['telefono']; ?>"><?php echo $data['telefono']; ?></a></p>
+                                                </div>
+			                                <?php }
+			                                if (strlen($data['email']) > 5) { ?>
+                                                <div class="address">
+                                                    <i class="fas fa-envelope"></i>
+                                                    <p><a href="mailto:<?php echo $data['email']; ?>"><?php echo $data['email']; ?></a></p>
+                                                </div>
+			                                <?php }
+			                                if (strlen($data['web']) > 5) { ?>
+                                                <div class="address">
+                                                    <i class="fas fa-link"></i>
+                                                    <p><a href="<?php echo $data['web']; ?>" target="_blank"><?php echo $data['web']; ?></a></p>
+                                                </div>
+			                                <?php } ?>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- /widget-content -->
 

@@ -119,7 +119,7 @@ function normalizar($cadena){
 	$cadena1 = str_ireplace($tofind,$replac,$cadena);
  
 	//eliminamos todo lo que no sean letras numeros o el punto de la extension
-	$cadena2 = preg_replace("[^\-\.A-Za-z0-9]", "_", $cadena1);
+	$cadena2 = preg_replace("/[^ .\w]+/", "_", $cadena1);
  
 	return($cadena2); 
 }
